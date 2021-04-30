@@ -1,2 +1,2 @@
 # book-vue
-book shop with Laravel and Vue js ( Vuex )
+book store with Laravel and Vue js ( Vuex )
