@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->integer('category_id');
+            $table->string('author');
             $table->longText('description');
             $table->integer('stock')->default(0);
             $table->integer('qty')->default(0);

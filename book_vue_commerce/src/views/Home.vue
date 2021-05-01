@@ -3,7 +3,7 @@
     <div class="md:h-screen md:w-1/4">
       <Categories />
     </div>
-    <div class="w-full ml-0 md:ml-10">
+    <div class="w-full ml-0 mt-4 md:mt-0 md:ml-10">
       <Books />
     </div>
   </section>
