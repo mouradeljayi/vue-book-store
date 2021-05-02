@@ -12,8 +12,8 @@
 <script>
 import Categories from '@/components/Categories.vue'
 import Books from '@/components/Books.vue'
-export default {
 
+export default {
   name: 'Home',
   components: {
     Categories,

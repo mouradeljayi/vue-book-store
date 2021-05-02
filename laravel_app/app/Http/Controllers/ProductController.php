@@ -41,9 +41,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        return Product::find($id);
+        return Product::where('slug', $slug)->first();
     }
 
     /**
