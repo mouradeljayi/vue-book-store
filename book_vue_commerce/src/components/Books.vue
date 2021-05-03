@@ -26,6 +26,7 @@ export default {
   },
   mounted() {
     this.getProducts()
+    document.title = 'Vue Book'
   },
   methods: {
     getProducts() {
