@@ -21,7 +21,6 @@ class CreateProductsTable extends Migration
             $table->string('author');
             $table->longText('description');
             $table->integer('stock')->default(0);
-            $table->integer('qty')->default(0);
             $table->decimal('price',8,2)->default(0);
             $table->string('image');
             $table->timestamps();

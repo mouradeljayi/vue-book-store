@@ -1,10 +1,12 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 export default createStore({
   state: {
     cart: {
       items: [],
     },
+    products: [],
     isAuthenticated: false,
     token: '',
   },
@@ -27,8 +29,32 @@ export default createStore({
 
       localStorage.setItem('cart', JSON.stringify(state.cart))
     },
+    SET_PRODUCTS(state, products) {
+      state.products = products
+    },
+    SET_CATEGORIES(state, categories) {
+      state.categories =  categories
+    },
   },
   actions: {
+    fetchProducts({ commit }) {
+      axios.get('/api/products')
+        .then(response => {
+          commit('SET_PRODUCTS', response.data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    fetchCategories({ commit }) {
+      axios.get('/api/categories')
+        .then(response => {
+          commit('SET_CATEGORIES', response.data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
   },
   modules: {
   }

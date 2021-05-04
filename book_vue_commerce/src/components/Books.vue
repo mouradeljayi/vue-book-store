@@ -16,29 +16,18 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 export default {
   name: 'Books',
-  data() {
-    return {
-      products: [],
+  computed: {
+    products() {
+      return this.$store.state.products
     }
   },
   mounted() {
-    this.getProducts()
+    this.$store.dispatch('fetchProducts')
     document.title = 'Vue Book'
   },
-  methods: {
-    getProducts() {
-      axios.get('/api/products')
-        .then(response => {
-          this.products = response.data
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    }
-  }
 }
 </script>
 

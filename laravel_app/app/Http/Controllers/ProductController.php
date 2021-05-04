@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -80,5 +81,12 @@ class ProductController extends Controller
     public function search($title)
     {
         return Product::where('name', 'like', '%' . $title . '%');
+    }
+
+    public function category($slug)
+    {
+      $category = Category::where('slug', $slug)->first();
+      $products = Product::where('category_id', $category->id)->get();
+      return $products;
     }
 }
