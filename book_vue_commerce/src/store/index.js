@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import router from '@/router'
 
 export default createStore({
   state: {
@@ -7,6 +8,7 @@ export default createStore({
       items: [],
     },
     products: [],
+    product: {},
     isAuthenticated: false,
     token: '',
   },
@@ -32,6 +34,9 @@ export default createStore({
     SET_PRODUCTS(state, products) {
       state.products = products
     },
+    SET_PRODUCT(state, product) {
+      state.product = product
+    },
     SET_CATEGORIES(state, categories) {
       state.categories =  categories
     },
@@ -45,6 +50,15 @@ export default createStore({
         .catch(error => {
           console.error(error)
         })
+    },
+    fetchProduct({ commit }, {id}) {
+      axios.get(`/api/products/` + id)
+      .then(response => {
+        commit('SET_PRODUCT', response.data)
+      })
+      .catch(error => {
+        console.error(error)
+      })
     },
     fetchCategories({ commit }) {
       axios.get('/api/categories')

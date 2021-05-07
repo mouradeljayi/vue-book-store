@@ -50,8 +50,12 @@ export default {
     }
   },
   watch: {
-    '$route' : 'getProductsFilter'
-  }
+    $route(to, from) {
+      if(to.name === 'productCategory') {
+        this.getProductsFilter()
+      }
+    }
+  },
 }
 </script>
 <style media="screen">

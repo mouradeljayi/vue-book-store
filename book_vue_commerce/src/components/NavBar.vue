@@ -20,12 +20,30 @@
           </li>
           <li class="mt-8 pr-8 md:mt-0 md:ml-4 ml-0 text-lg uppercase font-semibold">
             <div class="flex items-center border-b border-yellow-500 py-2">
-              <input class="bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Search for a book">
+              <input v-model="search" class="bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Search for a book">
               <i class="fas fa-search text-yellow-500"></i>
             </div>
           </li>
         </ul>
       </nav>
+    </div>
+  </div>
+  <div v-if="search" class="bg-yellow-400 text-white p-2 z-20 fixed mt-16 top-0 right-0" style="width:15.7rem;margin-right:5.9rem">
+    <div v-for="product in searchProducts.slice(0,5)" class="p-2 hover:bg-white hover:text-gray-700">
+      <router-link :to="{ path: '/books/' + product.slug }" class="flex items-center">
+        <img src="../assets/book_default.png" class="w-14">
+        <div class="ml-2 flex flex-col">
+          <span class="text-sm">
+            {{ product.title }}
+          </span>
+          <span class="text-xs text-gray-700">
+            by {{ product.author }}
+          </span>
+        </div>
+      </router-link>
+    </div>
+    <div class="px-8" v-if="searchProducts.length === 0">
+      No results for "{{ search }}"
     </div>
   </div>
   <router-view />
@@ -37,6 +55,7 @@ export default {
   data() {
     return {
       showMobileMenu: false,
+      search: '',
       cart: {
         items: [],
       }
@@ -57,7 +76,20 @@ export default {
       }
       return totalLength
     },
-  }
+    searchProducts() {
+      return this.$store.state.products.filter(product => {
+        return product.title.toLowerCase().includes(this.search.toLowerCase())
+      })
+    },
+  },
+  watch: {
+    $route(to, from) {
+      if(to.name === 'book') {
+        this.$store.dispatch('fetchProduct', { id: this.$route.params.id })
+        this.search = ""
+      }
+    }
+  },
 }
 </script>
 

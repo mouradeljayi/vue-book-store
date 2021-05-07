@@ -67,31 +67,24 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name: 'Book',
   data() {
     return {
-      product: [],
       qty: 1,
       notification: "",
     }
   },
+  computed: {
+    product() {
+      return this.$store.state.product
+    }
+  },
   mounted() {
-    this.getProduct()
+    this.$store.dispatch('fetchProduct', { id: this.$route.params.id })
   },
   methods: {
-    getProduct() {
-      axios.get(`/api/products/${this.$route.params.id}`)
-      .then(response => {
-        this.product = response.data
-        document.title = this.product.title + '| Book Vue'
-      })
-      .catch(error => {
-        console.error(error)
-      })
-    },
     addToCart() {
       if(isNaN(this.qty) || this.qty < 1) {
         this.qty = 1
