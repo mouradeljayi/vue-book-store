@@ -14,7 +14,7 @@
             <router-link :to="{ name: '', params: {} }" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">LOGIN</router-link>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <router-link :to="{ name: '', params: {} }" class="text-yellow-500 hover:text-yellow-700 relative">
+            <router-link to="/cart" class="text-yellow-500 hover:text-yellow-700 relative">
                <i class="fas fa-shopping-cart fa-lg"></i> <span class="absolute bottom-4 left-5 rounded-full bg-red-500 text-white text-sm px-2"> {{ cartTotalLength }} </span>
              </router-link>
           </li>
@@ -66,6 +66,7 @@ export default {
   },
   mounted() {
     this.cart = this.$store.state.cart
+    console.log(this.$route.name)
   },
   computed: {
     cartTotalLength() {
@@ -84,7 +85,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if(to.name === 'book') {
+      if(to.name === 'Book') {
         this.$store.dispatch('fetchProduct', { id: this.$route.params.id })
         this.search = ""
       }

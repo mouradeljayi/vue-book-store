@@ -28,7 +28,7 @@
 
       <div class="flex flex-row mt-4">
         <input type="number" min="1" class="rounded border border-yellow-600 shadow appearance-none
-               text-md p-2 focus:outline-none w-1/2 md:w-1/3" v-model="qty" max="15">
+               text-md p-2 focus:outline-none w-1/2 md:w-1/3" v-model="qty" :max=product.stock>
         <button @click="addToCart" v-if="product.stock" class="shadow focus:outline-none rounded px-2 bg-yellow-500 hover:bg-yellow-600 ml-1 text-white w-1/3"> <i class="fas fa-shopping-cart"></i> ADD TO CART</button>
         <button v-if="product.stock === 0" class="shadow focus:outline-none rounded px-2 bg-red-500  ml-1 text-white cursor-not-allowed">NOT AVAILABLE</button>
       </div>
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     addToCart() {
-      if(isNaN(this.qty) || this.qty < 1) {
+      if(isNaN(this.qty) || this.qty < 1 || this.qty > this.product.stock) {
         this.qty = 1
       }
 

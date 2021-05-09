@@ -28,7 +28,7 @@ class ProductFactory extends Factory
           'category_id' => $this->faker->numberBetween($min = 1, $max = 12),
           'author' => $this->faker->name(),
           'description' => $this->faker->paragraph(),
-          'stock' => $this->faker->numberBetween($min = 50, $max = 200),
+          'stock' => 10,
           'price' => $this->faker->numberBetween($min = 100, $max = 900),
           'image' => "https://images-na.ssl-images-amazon.com/images/I/51B1D1nV5YL._SX379_BO1,204,203,200_.jpg",
         ];
