@@ -11,7 +11,7 @@
             <router-link to="/" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">BOOKS</router-link>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <router-link :to="{ name: '', params: {} }" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">LOGIN</router-link>
+            <router-link to="/signUp" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">SIGN UP</router-link>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
             <router-link to="/cart" class="text-yellow-500 hover:text-yellow-700 relative">
@@ -66,7 +66,6 @@ export default {
   },
   mounted() {
     this.cart = this.$store.state.cart
-    console.log(this.$route.name)
   },
   computed: {
     cartTotalLength() {

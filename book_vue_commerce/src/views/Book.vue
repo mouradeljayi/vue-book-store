@@ -10,7 +10,7 @@
     <div class="ml-5 md:ml-20 w-full md:w-1/2">
       <h1 class="text-3xl font-semibold">{{ product.title }}</h1>
       <h4 class="text-sm">By <a href="#" class="text-yellow-600 hover:underline text-base">{{ product.author }}</a> </h4>
-      <h5 class="text-sm mt-1 font-bold">Category : Action & Adventure</h5>
+      <h5 class="text-sm mt-1 font-bold">Category : </h5>
 
       <div class="flex items-center mt-2">
         <i class="fas fa-star text-yellow-600"></i>
