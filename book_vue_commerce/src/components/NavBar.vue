@@ -11,12 +11,18 @@
             <router-link to="/" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">BOOKS</router-link>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <router-link to="/signUp" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">SIGN UP</router-link>
+            <router-link to="/signIn" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" v-if="!isLoggedIn">SIGN IN</router-link>
+          </li>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
+            <router-link to="/signUp" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" v-if="!isLoggedIn">SIGN UP</router-link>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
             <router-link to="/cart" class="text-yellow-500 hover:text-yellow-700 relative">
                <i class="fas fa-shopping-cart fa-lg"></i> <span class="absolute bottom-4 left-5 rounded-full bg-red-500 text-white text-sm px-2"> {{ cartTotalLength }} </span>
              </router-link>
+          </li>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
+            <span @click.prevent="logout" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white cursor-pointer" v-if="isLoggedIn">LOGOUT</span>
           </li>
           <li class="mt-8 pr-8 md:mt-0 md:ml-4 ml-0 text-lg uppercase font-semibold">
             <div class="flex items-center border-b border-yellow-500 py-2">
@@ -50,10 +56,13 @@
 </template>
 
 <script>
+import User from '../apis/User'
+
 export default {
   name: 'NavBar',
   data() {
     return {
+      isLoggedIn: false,
       showMobileMenu: false,
       search: '',
       cart: {
@@ -65,9 +74,21 @@ export default {
     this.$store.commit('initializeStore')
   },
   mounted() {
+    /*this.$root.$on('login', () => {
+      this.isLoggedIn = true;
+    });
+    this.isLoggedIn = !!localStorage.getItem('auth');*/
+
     this.cart = this.$store.state.cart
   },
   computed: {
+    logout() {
+      User.logout().then(() => {
+        localStorage.removeItem('auth');
+        this.isLoggedIn = false;
+        this.$router.push({ name: 'home' });
+      })
+    },
     cartTotalLength() {
       let totalLength = 0
 
