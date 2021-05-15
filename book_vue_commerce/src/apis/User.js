@@ -1,5 +1,6 @@
 import Api from './Api';
 import Csrf from './Csrf';
+import axios from 'axios';
 
 export default {
   // register method
@@ -9,6 +10,9 @@ export default {
   },
   // login method
   async login(form) {
+    axios.defaults.headers.common['Authorization'] = ""
+    localStorage.removeItem('token')
+
     await Csrf.getCookie();
     return Api.post("/login", form);
   },

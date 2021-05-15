@@ -72,10 +72,10 @@ export default {
           this.$router.push({ name: 'SignIn'})
         })
       .catch(error => {
-        if(error.response.status === 422) {
+        if(error.response.status === 401) {
           this.errors = error.response.data.errors;
         }
-      })  
+      })
     }
   },
 }

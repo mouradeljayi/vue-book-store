@@ -4,6 +4,7 @@ import Book from '../views/Book.vue'
 import Cart from '../views/Cart.vue'
 import SignUp from '../views/SignUp.vue'
 import SignIn from '../views/SignIn.vue'
+import MyAccount from '../views/MyAccount.vue'
 import ProductCategory from '../components/ProductCategory.vue'
 
 const routes = [
@@ -21,6 +22,11 @@ const routes = [
     path: '/signIn',
     name: 'SignIn',
     component: SignIn,
+  },
+  {
+    path: '/myAccount',
+    name: 'MyAccount',
+    component: MyAccount,
   },
   {
     path: '/books/:id',

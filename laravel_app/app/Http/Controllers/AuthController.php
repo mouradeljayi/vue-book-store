@@ -20,64 +20,61 @@ class AuthController extends Controller
         'password' => 'required|string|min:6|confirmed'
       ]);
 
-      User::create([
+      $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
       ]);
 
-      //$token = $user->createToken('myAppToken')->plainTextToken;
-      //$response = [
-      //  'user' => $user,
-      //  'token' => $token
-      //];
+      $token = $user->createToken('myAppToken')->plainTextToken;
+      $response = [
+        'user' => $user,
+        'token' => $token
+      ];
 
-      //return response($response, 201);
-
-      //return response()->json(['msg' => 'Registered Successfully']);
+      return response($response, 201);
     }
 
     public function login(Request $request)
     {
-      $request->validate([
+      $fields = $request->validate([
         'email' => 'required',
         'password' => 'required'
       ]);
 
-      if(Auth::attempt($request->only('email', 'password')))
+      /*if(Auth::attempt($request->only('email', 'password')))
       {
         return response()->json(Auth::user(), 200);
       }
       return response([
         'cred_error' => 'The provided credentials are incorrect.'
-        ], 401);
+      ], 401);*/
 
-      // Check email
-      //$user =  User::where('email', $fields['email'])->first();
+      //Check email
+      $user =  User::where('email', $fields['email'])->first();
 
       // Check password
-    //  if(!$user || !Hash::check($fields['password'], $user->password))
-    //  {
-    //    return response([
-    //      'message' => 'Bad creds'
-      //  ], 401);
-    //  }
+    if(!$user || !Hash::check($fields['password'], $user->password))
+     {
+       return response([
+         'message' => 'Bad creds'
+       ], 401);
+     }
 
-      //$token = $user->createToken('myAppToken')->plainTextToken;
-      //$response = [
-      //  'user' => $user,
-      //  'token' => $token
-      //];
+      $token = $user->createToken('myAppToken')->plainTextToken;
+      $response = [
+       'user' => $user,
+        'token' => $token
+      ];
 
-      //return response($response, 201);
+      return response($response, 201);
     }
 
     public function logout(Request $request)
     {
-      //auth()->user()->tokens()->delete();
-      //return [
-      //  'message' => 'Logged out',
-      //];
-      Auth::logout();
+      auth()->user()->tokens()->delete();
+      return [
+        'message' => 'Logged out',
+      ];
     }
 }

@@ -19,6 +19,14 @@ export default createStore({
       } else {
         localStorage.setItem('cart', JSON.stringify(state.cart))
       }
+      // token 
+      if(localStorage.getItem('token')) {
+        state.token = localStorage.getItem('token')
+        state.isAuthenticated = true
+      } else {
+        state.token = ''
+        state.isAuthenticated = false
+      }
     },
     addToCart(state, item) {
       const exists = state.cart.items.filter(i => i.product.id === item.product.id)
@@ -39,6 +47,14 @@ export default createStore({
     },
     SET_CATEGORIES(state, categories) {
       state.categories =  categories
+    },
+    SET_TOKEN(state, token) {
+      state.token = token
+      state.isAuthenticated = true
+    },
+    REMOVE_TOKEN(state) {
+      state.token = ''
+      state.isAuthenticated = false
     },
   },
   actions: {

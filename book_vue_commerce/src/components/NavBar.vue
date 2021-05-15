@@ -10,19 +10,19 @@
           <li class="mt-8 pr-8 ml-0 md:mt-0 md:ml-4 text-xl uppercase font-semibold">
             <router-link to="/" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">BOOKS</router-link>
           </li>
-          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <router-link to="/signIn" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" v-if="!isLoggedIn">SIGN IN</router-link>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold" v-if="!$store.state.isAuthenticated">
+            <router-link to="/signIn" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">SIGN IN</router-link>
           </li>
-          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <router-link to="/signUp" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" v-if="!isLoggedIn">SIGN UP</router-link>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold" v-if="!$store.state.isAuthenticated">
+            <router-link to="/signUp" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" >SIGN UP</router-link>
+          </li>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold" v-if="$store.state.isAuthenticated">
+            <router-link to="/myAccount" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" >My account</router-link>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
             <router-link to="/cart" class="text-yellow-500 hover:text-yellow-700 relative">
                <i class="fas fa-shopping-cart fa-lg"></i> <span class="absolute bottom-4 left-5 rounded-full bg-red-500 text-white text-sm px-2"> {{ cartTotalLength }} </span>
              </router-link>
-          </li>
-          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <span @click.prevent="logout" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white cursor-pointer" v-if="isLoggedIn">LOGOUT</span>
           </li>
           <li class="mt-8 pr-8 md:mt-0 md:ml-4 ml-0 text-lg uppercase font-semibold">
             <div class="flex items-center border-b border-yellow-500 py-2">
@@ -57,6 +57,7 @@
 
 <script>
 import User from '../apis/User'
+import axios from 'axios'
 
 export default {
   name: 'NavBar',
@@ -72,13 +73,16 @@ export default {
   },
   beforeCreate() {
     this.$store.commit('initializeStore')
+
+    const token = this.$store.state.token
+
+    if(token) {
+      axios.defaults.headers.common['Authorization'] =  "Token" + token
+    } else {
+      axios.defaults.headers.common['Authorization'] = ""
+    }
   },
   mounted() {
-    /*this.$root.$on('login', () => {
-      this.isLoggedIn = true;
-    });
-    this.isLoggedIn = !!localStorage.getItem('auth');*/
-
     this.cart = this.$store.state.cart
   },
   computed: {

@@ -11,6 +11,7 @@
               </label>
               <input v-model="form.email" :class="[errors.email ? 'border-red-600' : 'border-yellow-600']" class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"  type="email" name="email" placeholder="Enter your email address">
               <p v-if="errors.email" class="text-red-500 text-xs mt-2">{{ errors.email[0] }}</p>
+              <p v-if="credError" class="text-red-500 text-xs mt-2">{{ credError }}</p>
             </div>
           </div>
           <div class="flex flex-wrap -mx-3 mb-6">
@@ -38,6 +39,7 @@
 
 <script>
 import User from '../apis/User'
+import axios from 'axios'
 
 export default {
   name: 'SignIn',
@@ -48,20 +50,29 @@ export default {
         password: ''
       },
       errors: [],
+      credError: ''
     }
   },
   methods: {
     login() {
       User.login(this.form)
-        .then(() => {
-          //this.$root.$emit('login', true);
-          localStorage.setItem('auth', 'true');
-          this.$router.push({ name: 'home' });
+        .then((response) => {
+          const token =  response.data.token
+          this.$store.commit('SET_TOKEN', token)
+          axios.defaults.headers.common['Authorization'] = "Token" + token
+          localStorage.setItem('token', token)
+          const toPath = this.$route.query.to || '/cart'
+          this.$router.push(toPath)
         })
         .catch(error => {
           if(error.response.status === 422) {
             this.errors = error.response.data.errors
           }
+          if(error.response.status === 401) {
+            this.credError = "The provided credentials are incorrect."
+            this.form = ""
+          }
+          console.log(error)
         })
     }
   }
