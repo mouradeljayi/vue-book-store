@@ -18,6 +18,9 @@ export default {
   },
   // logout method
   async logout() {
+    axios.defaults.headers.common['Authorization'] = ""
+    localStorage.removeItem('token');
+    
     await Csrf.getCookie();
     return Api.post("/logout");
   },

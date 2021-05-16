@@ -42,14 +42,6 @@ class AuthController extends Controller
         'password' => 'required'
       ]);
 
-      /*if(Auth::attempt($request->only('email', 'password')))
-      {
-        return response()->json(Auth::user(), 200);
-      }
-      return response([
-        'cred_error' => 'The provided credentials are incorrect.'
-      ], 401);*/
-
       //Check email
       $user =  User::where('email', $fields['email'])->first();
 
@@ -72,7 +64,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-      auth()->user()->tokens()->delete();
+      if ($request->user())
+      { 
+        $request->user()->tokens()->delete();
+      }
       return [
         'message' => 'Logged out',
       ];

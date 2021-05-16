@@ -2,26 +2,29 @@
   <div class="bg-gray-900 shadow-md fixed inset-x-0 top-0 z-20">
     <div class="container mx-auto px-12 py-4">
       <nav class="md:flex flex-row md:justify-between">
-        <div class="flex flex-row justify-between">
-          <router-link to="/"> <span class="text-white text-5xl font-bold"><i class="fas fa-book-reader"></i> <span class="text-yellow-500">Vue</span> </span> </router-link>
+        <div class="flex flex-row justify-between items-center">
+          <router-link to="/"> <span class="text-white text-4xl font-bold"><i class="fas fa-book-reader"></i> <span class="text-yellow-500">Vue</span> </span> </router-link>
           <button class="md:hidden focus:outline-none text-white" @click="showMobileMenu = !showMobileMenu"><i class="fas fa-bars fa-2x"></i></button>
         </div>
         <ul :class="{'hidden' : showMobileMenu}" class="flex flex-col md:flex-row md:items-center">
-          <li class="mt-8 pr-8 ml-0 md:mt-0 md:ml-4 text-xl uppercase font-semibold">
-            <router-link to="/" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">BOOKS</router-link>
+          <li class="mt-8 pr-8 ml-0 md:mt-0 md:ml-4 text-xl">
+            <router-link to="/" class="hover:text-yellow-600 text-white">Books</router-link>
           </li>
-          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold" v-if="!$store.state.isAuthenticated">
-            <router-link to="/signIn" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white">SIGN IN</router-link>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl" v-if="!$store.state.isAuthenticated">
+            <router-link to="/signIn" class="hover:text-yellow-600 text-white">Sign In</router-link>
           </li>
-          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold" v-if="!$store.state.isAuthenticated">
-            <router-link to="/signUp" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" >SIGN UP</router-link>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl" v-if="!$store.state.isAuthenticated">
+            <router-link to="/signUp" class="hover:text-yellow-600 text-white">Sign Up</router-link>
           </li>
-          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold" v-if="$store.state.isAuthenticated">
-            <router-link to="/myAccount" class="bg-yellow-500 hover:bg-yellow-700 py-2 px-4 rounded-full text-white" >My account</router-link>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl" v-if="$store.state.isAuthenticated">
+            <router-link to="/myAccount" class="hover:text-yellow-600 text-white">My Account</router-link>
+          </li>
+          <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl" v-if="$store.state.isAuthenticated">
+            <span @click="logout" class="hover:text-yellow-600 text-white" >Logout</span>
           </li>
           <li class="mt-8 md:mt-0 ml-0 pr-8 md:ml-4 text-xl uppercase font-semibold">
-            <router-link to="/cart" class="text-yellow-500 hover:text-yellow-700 relative">
-               <i class="fas fa-shopping-cart fa-lg"></i> <span class="absolute bottom-4 left-5 rounded-full bg-red-500 text-white text-sm px-2"> {{ cartTotalLength }} </span>
+            <router-link to="/cart" class="text-white hover:text-yellow-700 relative">
+               <i class="fas fa-shopping-cart fa-lg"></i> <span class="absolute bottom-4 left-5 rounded-full bg-yellow-600 text-white text-sm px-2"> {{ cartTotalLength }} </span>
              </router-link>
           </li>
           <li class="mt-8 pr-8 md:mt-0 md:ml-4 ml-0 text-lg uppercase font-semibold">
@@ -63,7 +66,6 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      isLoggedIn: false,
       showMobileMenu: false,
       search: '',
       cart: {
@@ -88,8 +90,7 @@ export default {
   computed: {
     logout() {
       User.logout().then(() => {
-        localStorage.removeItem('auth');
-        this.isLoggedIn = false;
+        this.$store.commit('REMOVE_TOKEN')
         this.$router.push({ name: 'home' });
       })
     },
