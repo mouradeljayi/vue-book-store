@@ -1,6 +1,6 @@
 <template lang="html">
   <section class="mt-32 mb-12 container mx-auto px-4 flex justify-center items-center flex-col md:flex-row">
-    <div v-if="notification" class="fixed z-20 right-5 w-80 bg-green-600 p-6 text-white rounded">
+    <div v-if="notification" class="fixed z-20 top-32 right-5 w-80 bg-green-600 p-6 text-white rounded">
       {{ notification }}
       <i @click="notification = '' " class="cursor-pointer fas fa-times absolute right-2 top-2"></i>
     </div>
@@ -34,10 +34,10 @@
   <section class="container mx-auto px-20 mb-20">
 
     <h1 class="text-center font-bold">YOU MAY ALSO LIKE</h1>
-    <div v-for="product in filteredProduct" :key="product.id" class="grid md:grid-cols-6 gap-4">
-      <div class="mt-8">
+    <div class="grid md:grid-cols-6 gap-4">
+      <div class="mt-8" v-for="product in filteredProducts" :key="product.id">
         <img :src="product.image" alt="book image">
-        <h4 class="mt-2 hover:text-yellow-500 font-bold"> <a href="#">{{ product.title }}</a> </h4>
+        <h4 class="mt-2 hover:text-yellow-500 font-bold"> <router-link @click="scrollToTop()" :to="{ path: '/books/' + product.slug }"> {{ product.title }}</router-link> </h4>
         <span class="text-gray-500 text-sm">{{ product.author }}</span>
       </div>
     </div>
@@ -52,7 +52,6 @@ export default {
   data() {
     return {
       qty: 1,
-      productCategoryID: this.$store.state.product.category_id,
       notification: "",
     }
   },
@@ -60,16 +59,22 @@ export default {
     product() {
       return this.$store.state.product
     },
-    filteredProduct() {
-      return this.$store.state.products.filter((product) => {
-        product.category_id === this.productCategoryID
-      })
+    products() {
+      return this.$store.state.products
+    },
+    filteredProducts() {
+      const prods =  this.products.filter((p) =>  p.category_id === this.product.category_id)
+      return prods.filter((p) => p.id !== this.product.id)
     }
   },
   mounted() {
     this.$store.dispatch('fetchProduct', { id: this.$route.params.id })
+    this.$store.dispatch('fetchProducts')
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo(0,0)
+    },
     addToCart() {
       if(isNaN(this.qty) || this.qty < 1 || this.qty > this.product.stock) {
         this.qty = 1
