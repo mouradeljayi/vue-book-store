@@ -19,7 +19,7 @@ export default createStore({
       } else {
         localStorage.setItem('cart', JSON.stringify(state.cart))
       }
-      // token 
+      // token
       if(localStorage.getItem('token')) {
         state.token = localStorage.getItem('token')
         state.isAuthenticated = true

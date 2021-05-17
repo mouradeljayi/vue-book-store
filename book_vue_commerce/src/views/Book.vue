@@ -35,7 +35,7 @@
 
     <h1 class="text-center font-bold">YOU MAY ALSO LIKE</h1>
     <div class="grid md:grid-cols-6 gap-4">
-      <div class="mt-8" v-for="product in filteredProducts" :key="product.id">
+      <div class="mt-8" v-for="product in filteredProducts.slice(0,6)" :key="product.id">
         <img :src="product.image" alt="book image">
         <h4 class="mt-2 hover:text-yellow-500 font-bold"> <router-link @click="scrollToTop()" :to="{ path: '/books/' + product.slug }"> {{ product.title }}</router-link> </h4>
         <span class="text-gray-500 text-sm">{{ product.author }}</span>
