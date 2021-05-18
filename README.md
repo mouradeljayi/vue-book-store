@@ -1,2 +1,2 @@
-# book-vue ( UNDER PRODUCTION )
+# Vue Book Store
 book store with Laravel and Vue js ( Vuex )
